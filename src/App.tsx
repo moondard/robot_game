@@ -14,9 +14,19 @@ function App() {
       <Routes>
         <Route path="/login" element={<AuthScreen />} />
         <Route path="/menu" element={<ProtectedRoute><MainMenu /></ProtectedRoute>} />
-        <Route path="/game/:id" element={
+        <Route path="/shop" element={
           <ProtectedRoute>
-            <div style={{ padding: 40 }}>Экран игры (в разработке)</div>
+            <div style={{ padding: 40 }}>Магазин (в разработке)</div>
+          </ProtectedRoute>
+        } />
+        <Route path="/achievements" element={
+          <ProtectedRoute>
+            <div style={{ padding: 40 }}>Достижения (в разработке)</div>
+          </ProtectedRoute>
+        } />
+        <Route path="/map" element={
+          <ProtectedRoute>
+            <div style={{ padding: 40 }}>Карта уровней (в разработке)</div>
           </ProtectedRoute>
         } />
         <Route path="*" element={<Navigate to="/login" replace />} />
