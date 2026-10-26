@@ -1,0 +1,126 @@
+@use '../styles/variables' as *;
+
+.auth-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $space-md;
+    background: $bg-page;
+}
+
+.auth-card {
+    background: $bg-panel;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    padding: $space-xl;
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: $space-lg;
+
+    &__robot {
+        font-size: 56px;
+        line-height: 1;
+        margin-bottom: $space-sm;
+    }
+
+    &__title {
+        font-size: $font-size-xl;
+        font-weight: 700;
+        color: $text-main;
+    }
+}
+
+.auth-tabs {
+    display: flex;
+    background: $bg-input;
+    border-radius: $radius-md;
+    padding: 4px;
+    margin-bottom: $space-lg;
+
+    &__tab {
+        flex: 1;
+        padding: $space-sm $space-md;
+        background: transparent;
+        border-radius: $radius-sm;
+        font-weight: 600;
+        color: $text-muted;
+        transition: all 0.2s;
+
+        &.active {
+            background: $bg-panel;
+            color: $text-main;
+            box-shadow: $shadow-sm;
+        }
+    }
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+
+    &__label {
+        display: flex;
+        flex-direction: column;
+        gap: $space-xs;
+        font-size: $font-size-sm;
+        font-weight: 600;
+        color: $text-main;
+    }
+
+    &__input {
+        padding: $space-sm $space-md;
+        background: $bg-input;
+        border: 2px solid transparent;
+        border-radius: $radius-md;
+        font-size: $font-size-md;
+        outline: none;
+        transition: border-color 0.2s;
+
+        &:focus {
+            border-color: $accent-primary;
+            background: $bg-panel;
+        }
+    }
+
+    &__password-wrapper {
+        position: relative;
+    }
+
+    &__eye {
+        position: absolute;
+        right: $space-sm;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        font-size: 18px;
+    }
+
+    &__error {
+        color: $error;
+        font-size: $font-size-sm;
+        padding: $space-sm;
+        background: rgba($error, 0.1);
+        border-radius: $radius-sm;
+    }
+
+    &__submit {
+        padding: $space-md;
+        background: $accent-primary;
+        color: $text-light;
+        border-radius: $radius-md;
+        font-size: $font-size-md;
+        font-weight: 700;
+        margin-top: $space-sm;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+}

@@ -1,0 +1,32 @@
+@use 'variables' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $font-family;
+    background: $bg-page;
+    color: $text-main;
+    font-size: $font-size-md;
+    line-height: 1.5;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+}
+
+input {
+    font-family: inherit;
+}
+
+a {
+    color: $accent-primary;
+    text-decoration: none;
+}
