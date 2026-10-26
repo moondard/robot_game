@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { getUser, setUser } from '../store/session';
 
-import './MainMenu.scss';
+import { getUser, setUser } from '../../services/session';
 
+import './styles.scss';
+
+// Главное меню: шапка с пользователем, навигация по разделам
 export function MainMenu() {
     const navigate = useNavigate();
     const user = getUser();
 
+    // Выход: сбрасываем сессию и возвращаемся на логин
     const handleLogout = () => {
         setUser(null);
         navigate('/login');

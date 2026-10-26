@@ -1,0 +1,51 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+import { Auth } from '../../features/Auth';
+import { MainMenu } from '../../features/MainMenu';
+
+import { getUser } from '../session';
+
+/* 
+Обёртка для защищённых маршрутов
+если пользователь не авторизован — редирект на /login
+replace — чтобы не засорять историю браузера и не застрять в цикле "назад"
+*/
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+    return getUser() ? <>{children}</> : <Navigate to="/login" replace />;
+}
+
+/* 
+Централизованный роутер приложения
+Все защищённые экраны оборачиваются в ProtectedRoute
+*/
+export function AppRouter() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<Auth />} />
+                <Route path="/menu" element={<ProtectedRoute><MainMenu /></ProtectedRoute>} />
+                <Route path="/game/:id" element={
+                    <ProtectedRoute>
+                        <div style={{ padding: 40 }}>Экран игры (в разработке)</div>
+                    </ProtectedRoute>
+                } />
+                <Route path="/map" element={
+                    <ProtectedRoute>
+                        <div style={{ padding: 40 }}>Карта уровней (в разработке)</div>
+                    </ProtectedRoute>
+                } />
+                <Route path="/shop" element={
+                    <ProtectedRoute>
+                        <div style={{ padding: 40 }}>Магазин (в разработке)</div>
+                    </ProtectedRoute>
+                } />
+                <Route path="/achievements" element={
+                    <ProtectedRoute>
+                        <div style={{ padding: 40 }}>Достижения (в разработке)</div>
+                    </ProtectedRoute>
+                } />
+                <Route path="*" element={<Navigate to="/login" replace />} />
+            </Routes>
+        </BrowserRouter>
+    );
+}

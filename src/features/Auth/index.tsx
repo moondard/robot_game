@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { setUser } from '../store/session';
 import { useNavigate } from 'react-router-dom';
 
-import './AuthScreen.scss';
+import { setUser } from '../../services/session';
 
-export function AuthScreen() {
+import './styles.scss';
+
+// Экран авторизации: вход, регистрация
+export function Auth() {
     const navigate = useNavigate();
     const [mode, setMode] = useState<'login' | 'register'>('login');
     const [email, setEmail] = useState('');
@@ -12,6 +14,7 @@ export function AuthScreen() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
+    // Обработка отправки формы
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
