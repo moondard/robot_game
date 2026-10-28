@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Auth } from '../../features/Auth';
 import { Shop } from '../../features/Shop';
 import { MainMenu } from '../../features/MainMenu';
+import { LevelMap } from '../../features/LevelMap';
 import { Achievements } from '../../features/Achievements';
 
 import { getUser } from '../session';
@@ -33,7 +34,7 @@ export function AppRouter() {
                 } />
                 <Route path="/map" element={
                     <ProtectedRoute>
-                        <div style={{ padding: 40 }}>Карта уровней (в разработке)</div>
+                        <LevelMap />
                     </ProtectedRoute>
                 } />
                 <Route path="/shop" element={
