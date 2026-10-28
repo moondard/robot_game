@@ -1,0 +1,84 @@
+@use '../../styles/variables' as *;
+
+.achievements {
+    min-height: 100vh;
+    padding: $space-lg;
+    background: $bg-page;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $space-md;
+        margin-bottom: $space-lg;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &__back {
+        padding: $space-sm $space-md;
+        background: $bg-panel;
+        border-radius: $radius-md;
+        box-shadow: $shadow-sm;
+        color: $text-main;
+        font-weight: 600;
+
+        &:hover {
+            background: $bg-input;
+        }
+    }
+
+    &__title {
+        font-size: $font-size-xl;
+        font-weight: 700;
+        color: $text-main;
+    }
+
+    &__counter {
+        padding: $space-sm $space-md;
+        background: $bg-panel;
+        border-radius: $radius-md;
+        box-shadow: $shadow-sm;
+        font-weight: 700;
+        color: $text-muted;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: $space-md;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    &__card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: $space-sm;
+        padding: $space-lg $space-md;
+        background: $bg-panel;
+        border-radius: $radius-lg;
+        box-shadow: $shadow-sm;
+        border: 2px solid $border-color;
+    }
+
+    &__card-icon {
+        font-size: 40px;
+        line-height: 1;
+        opacity: 0.4;
+    }
+
+    &__card-name {
+        font-size: $font-size-md;
+        font-weight: 700;
+        color: $text-main;
+    }
+
+    &__card-description {
+        font-size: $font-size-sm;
+        color: $text-muted;
+    }
+}

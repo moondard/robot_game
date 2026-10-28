@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import { Auth } from '../../features/Auth';
+import { Shop } from '../../features/Shop';
 import { MainMenu } from '../../features/MainMenu';
+import { Achievements } from '../../features/Achievements';
 
 import { getUser } from '../session';
 
@@ -36,12 +38,12 @@ export function AppRouter() {
                 } />
                 <Route path="/shop" element={
                     <ProtectedRoute>
-                        <div style={{ padding: 40 }}>Магазин (в разработке)</div>
+                        <Shop />
                     </ProtectedRoute>
                 } />
                 <Route path="/achievements" element={
                     <ProtectedRoute>
-                        <div style={{ padding: 40 }}>Достижения (в разработке)</div>
+                        <Achievements />
                     </ProtectedRoute>
                 } />
                 <Route path="*" element={<Navigate to="/login" replace />} />

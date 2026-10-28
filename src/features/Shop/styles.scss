@@ -1,0 +1,110 @@
+@use '../../styles/variables' as *;
+
+.shop {
+    min-height: 100vh;
+    padding: $space-lg;
+    background: $bg-page;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $space-md;
+        margin-bottom: $space-lg;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &__back {
+        padding: $space-sm $space-md;
+        background: $bg-panel;
+        border-radius: $radius-md;
+        box-shadow: $shadow-sm;
+        color: $text-main;
+        font-weight: 600;
+
+        &:hover {
+            background: $bg-input;
+        }
+    }
+
+    &__title {
+        font-size: $font-size-xl;
+        font-weight: 700;
+        color: $text-main;
+    }
+
+    &__coins {
+        padding: $space-sm $space-md;
+        background: $bg-panel;
+        border-radius: $radius-md;
+        box-shadow: $shadow-sm;
+        font-weight: 700;
+        color: $warning;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: $space-md;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    &__card {
+        display: flex;
+        flex-direction: column;
+        gap: $space-sm;
+        padding: $space-md;
+        background: $bg-panel;
+        border-radius: $radius-lg;
+        box-shadow: $shadow-sm;
+        border: 2px solid $border-color;
+        transition: all 0.2s;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: $shadow-md;
+            border-color: $accent-primary;
+        }
+    }
+
+    &__card-name {
+        font-size: $font-size-md;
+        font-weight: 700;
+        color: $text-main;
+    }
+
+    &__card-description {
+        font-size: $font-size-sm;
+        color: $text-muted;
+        flex: 1;
+    }
+
+    &__card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: $space-sm;
+    }
+
+    &__card-price {
+        font-weight: 700;
+        color: $warning;
+    }
+
+    &__card-buy {
+        padding: $space-xs $space-md;
+        background: $accent-primary;
+        color: $text-light;
+        border-radius: $radius-md;
+        font-weight: 700;
+        font-size: $font-size-sm;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+}
