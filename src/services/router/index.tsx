@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import { Auth } from '../../features/Auth';
 import { Shop } from '../../features/Shop';
+import { Game } from '../../features/Game';
 import { MainMenu } from '../../features/MainMenu';
 import { LevelMap } from '../../features/LevelMap';
 import { Achievements } from '../../features/Achievements';
@@ -29,7 +30,7 @@ export function AppRouter() {
                 <Route path="/menu" element={<ProtectedRoute><MainMenu /></ProtectedRoute>} />
                 <Route path="/game/:id" element={
                     <ProtectedRoute>
-                        <div style={{ padding: 40 }}>Экран игры (в разработке)</div>
+                        <Game />
                     </ProtectedRoute>
                 } />
                 <Route path="/map" element={

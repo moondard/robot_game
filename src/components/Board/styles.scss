@@ -1,0 +1,52 @@
+@use '../../styles/variables' as *;
+
+.board {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: $space-md;
+    background: $bg-panel;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+
+    &__row {
+        display: flex;
+        gap: 4px;
+    }
+
+    &__cell {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        border-radius: $radius-sm;
+        background: $bg-input;
+
+        &--wall {
+            background: $text-muted;
+        }
+
+        &--coin {
+            background: rgba($warning, 0.2);
+        }
+
+        &--exit {
+            background: rgba($success, 0.2);
+        }
+    }
+
+    &__robot {
+        position: relative;
+        font-size: 40px;
+        line-height: 1;
+
+        &-dir {
+            position: absolute;
+            bottom: -4px;
+            right: -8px;
+            font-size: 14px;
+        }
+    }
+}

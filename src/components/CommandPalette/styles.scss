@@ -1,0 +1,41 @@
+@use '../../styles/variables' as *;
+
+.command-palette {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+
+    &__title {
+        font-size: $font-size-md;
+        font-weight: 700;
+        color: $text-main;
+    }
+
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $space-sm;
+    }
+
+    &__item {
+        padding: $space-sm $space-md;
+        background: $bg-input;
+        border-radius: $radius-md;
+        font-weight: 600;
+        color: $text-main;
+        font-size: $font-size-sm;
+        cursor: grab;
+        user-select: none;
+        transition: background 0.2s;
+
+        &:hover {
+            background: $accent-mint;
+            color: $text-light;
+        }
+
+        &--dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+    }
+}
