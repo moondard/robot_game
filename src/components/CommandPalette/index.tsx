@@ -1,18 +1,28 @@
 import { useDraggable } from '@dnd-kit/core';
 
+import type { AllowedCommand } from '../../interfaces/Level';
+
 import './styles.scss';
 
 interface ICommandPaletteProps {
-    allowed: string[];
+    allowed: AllowedCommand[];
+}
+
+// Описание блока в палитре
+interface IPaletteCommand {
+    type: string;             // идентификатор блока (для dnd)
+    label: string;            // текст на блоке
+    requires: AllowedCommand; // какой тип команды должен быть разрешён
 }
 
 // Все доступные команды с иконками
-const COMMANDS = [
-    { type: 'move', label: '➡️ Вперёд' },
-    { type: 'turn', label: '🔄 Повернуть' },
-    { type: 'pick', label: '✋ Взять' },
-    { type: 'repeat', label: '🔁 Повторить' },
-    { type: 'if', label: '❓ Если' },
+const COMMANDS: IPaletteCommand[] = [
+    { type: 'move', label: '➡️ Вперёд', requires: 'move' },
+    { type: 'turn-left', label: '🔄 Повернуть налево', requires: 'turn' },
+    { type: 'turn-right', label: '🔄 Повернуть направо', requires: 'turn' },
+    { type: 'pick', label: '✋ Взять', requires: 'pick' },
+    { type: 'repeat', label: '🔁 Повторить', requires: 'repeat' },
+    { type: 'if', label: '❓ Если', requires: 'if' },
 ];
 
 // Один draggable-блок
@@ -43,7 +53,7 @@ function DraggableCommand({ type, label }: { type: string; label: string }) {
 Палитра доступных команд. Блоки перетаскиваются в панель программы.
 */
 export function CommandPalette({ allowed }: ICommandPaletteProps) {
-    const available = COMMANDS.filter((c) => allowed.includes(c.type));
+    const available = COMMANDS.filter((c) => allowed.includes(c.requires));
 
     return (
         <div className="command-palette">

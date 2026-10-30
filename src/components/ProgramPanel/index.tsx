@@ -14,11 +14,17 @@ interface IProgramPanelProps {
 // Названия команд для отображения
 const COMMAND_LABELS: Record<string, string> = {
     move: '➡️ Вперёд',
-    turn: '🔄 Повернуть',
     pick: '✋ Взять',
     repeat: '🔁 Повторить',
     if: '❓ Если',
 };
+
+function getCommandLabel(cmd: Command): string {
+    if (cmd.type === 'turn') {
+        return cmd.direction === 'left' ? '🔄 Повернуть налево' : '🔄 Повернуть направо';
+    }
+    return COMMAND_LABELS[cmd.type] ?? cmd.type;
+}
 
 /*
 Панель программы: слоты с командами + зона сброса.
@@ -43,7 +49,7 @@ export function ProgramPanel({ program, activeBlockId, isRunning, onRemove }: IP
                     >
                         <span className="program-panel__index">{idx + 1}</span>
                         <span className="program-panel__label">
-                            {COMMAND_LABELS[cmd.type] ?? cmd.type}
+                            {getCommandLabel(cmd)}
                         </span>
                         {!isRunning && (
                             <button

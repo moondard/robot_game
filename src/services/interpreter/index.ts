@@ -53,6 +53,7 @@ export function execute(
                 if (isWallAhead(state, grid)) {
                     steps.push({
                         state: { ...state },
+                        grid: grid.map(row => [...row]),
                         activeBlockId: cmd.id,
                         log: 'Стена! Робот не может пройти',
                         error: 'wall',
@@ -63,6 +64,7 @@ export function execute(
                 state = { ...state, x: next.x, y: next.y };
                 steps.push({
                     state: { ...state },
+                    grid: grid.map(row => [...row]),
                     activeBlockId: cmd.id,
                     log: `Шаг вперёд → (${state.x}, ${state.y})`,
                 });
@@ -73,6 +75,7 @@ export function execute(
                 state = { ...state, direction: rotate(state.direction, cmd.direction) };
                 steps.push({
                     state: { ...state },
+                    grid: grid.map(row => [...row]),
                     activeBlockId: cmd.id,
                     log: `Поворот ${cmd.direction === 'left' ? 'налево' : 'направо'} → ${state.direction}`,
                 });
@@ -86,12 +89,14 @@ export function execute(
                     grid[state.y][state.x] = 'empty'; // монета исчезает
                     steps.push({
                         state: { ...state },
+                        grid: grid.map(row => [...row]),
                         activeBlockId: cmd.id,
                         log: `Монета собрана! Всего: ${state.coins}`,
                     });
                 } else {
                     steps.push({
                         state: { ...state },
+                        grid: grid.map(row => [...row]),
                         activeBlockId: cmd.id,
                         log: 'Здесь нет монеты',
                     });
@@ -128,8 +133,14 @@ export function execute(
 }
 
 /*
-Проверка, выполнена ли цель уровня после программы.
-Возвращает { success, stars }.
+Проверка цели уровня и расчёт звёзд
+Победа: робот на выходе
+Сбор монет не обязателен для победы — влияет только на звёзды
+Звёзды:
+    3 - все монеты собраны и длина программы меньше или равна оптимальной;
+    2 - одно из условий нарушено;
+    1 - оба условия нарушены, но победа есть;
+    0 - не победа
 */
 export function checkGoal(
     level: ILevel,
@@ -138,26 +149,34 @@ export function checkGoal(
 ): { success: boolean; stars: number } {
     const cell = level.grid[finalState.y]?.[finalState.x];
     const atExit = cell === 'exit';
+
+    // Дошёл ли до выхода
+    const atExitGoal = level.goal.robotAtExit ? atExit : true;
+    const success = atExitGoal;
+
+    // Если не победа — 0 звёзд
+    if (!success) {
+        return { success: false, stars: 0 };
+    }
+
+    // Все ли монеты собраны (для уровней без монет — true)
     const allCoins = level.goal.allCoinsCollected
         ? finalState.coins >= countCoins(level.grid)
         : true;
-    const atExitGoal = level.goal.robotAtExit ? atExit : true;
 
-    const success = atExitGoal && allCoins;
+    // Уложился ли в оптимальное число команд
+    const optimal = level.goal.maxCommands ?? Infinity;
+    const inOptimal = programLength <= optimal;
 
-    // Звёзды: 3 — уложился в maxCommands (если задан), иначе 2 или 1
-    let stars = 0;
-    if (success) {
-        if (level.goal.maxCommands && programLength <= level.goal.maxCommands) {
-            stars = 3;
-        } else if (programLength <= 5) {
-            stars = 2;
-        } else {
-            stars = 1;
-        }
+    // Расчёт звёзд
+    let stars = 1;
+    if (allCoins && inOptimal) {
+        stars = 3;
+    } else if (allCoins || inOptimal) {
+        stars = 2;
     }
 
-    return { success, stars };
+    return { success: true, stars };
 }
 
 // Подсчёт монет на исходной сетке (до выполнения)

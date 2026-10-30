@@ -6,6 +6,8 @@ export type Direction = 'up' | 'right' | 'down' | 'left';
 
 export type CellType = 'empty' | 'wall' | 'coin' | 'exit';
 
+export type AllowedCommand = 'move' | 'turn' | 'pick' | 'repeat' | 'if';
+
 export type Command =
     | { type: 'move'; id: string }
     | { type: 'turn'; direction: 'left' | 'right'; id: string }
@@ -39,12 +41,13 @@ export interface ILevel {
         robotAtExit?: boolean;
         maxCommands?: number;
     };
-    allowedCommands: ('move' | 'turn' | 'pick' | 'repeat' | 'if')[];
+    allowedCommands: AllowedCommand[];
     hint?: string;
 }
 
 export interface IExecutionStep {
     state: IRobotState;
+    grid: CellType[][];
     activeBlockId: string;
     log: string;
     error?: string;

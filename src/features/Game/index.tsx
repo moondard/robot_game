@@ -8,7 +8,7 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 
-import type { Command, IExecutionStep, IRobotState } from '../../interfaces/Level';
+import type { CellType, Command, IRobotState } from '../../interfaces/Level';
 
 import { LEVELS } from '../../data/Levels';
 
@@ -45,6 +45,7 @@ export function Game() {
     const [program, setProgram] = useState<Command[]>([]);
     // Текущее состояние робота (для отрисовки)
     const [robotState, setRobotState] = useState<IRobotState | null>(null);
+    const [currentGrid, setCurrentGrid] = useState<CellType[][] | null>(null);
     // Активный блок (подсветка)
     const [activeBlockId, setActiveBlockId] = useState<string | null>(null);
     // Лог выполнения
@@ -76,18 +77,32 @@ export function Game() {
         const { active, over } = event;
         if (!over || over.id !== 'program-drop') return;
 
-        const commandType = active.data.current?.commandType as Command['type'] | undefined;
+        const commandType = active.data.current?.commandType as string | undefined;
         if (!commandType) return;
 
         // Создаём команду
         let newCmd: Command;
         switch (commandType) {
-            case 'move': newCmd = { type: 'move', id: nextId() }; break;
-            case 'turn': newCmd = { type: 'turn', direction: 'right', id: nextId() }; break;
-            case 'pick': newCmd = { type: 'pick', id: nextId() }; break;
-            case 'repeat': newCmd = { type: 'repeat', times: 2, body: [], id: nextId() }; break;
-            case 'if': newCmd = { type: 'if', condition: 'wallAhead', then: [], id: nextId() }; break;
-            default: return;
+            case 'move':
+                newCmd = { type: 'move', id: nextId() };
+                break;
+            case 'turn-left':
+                newCmd = { type: 'turn', direction: 'left', id: nextId() };
+                break;
+            case 'turn-right':
+                newCmd = { type: 'turn', direction: 'right', id: nextId() };
+                break;
+            case 'pick':
+                newCmd = { type: 'pick', id: nextId() };
+                break;
+            case 'repeat':
+                newCmd = { type: 'repeat', times: 2, body: [], id: nextId() };
+                break;
+            case 'if':
+                newCmd = { type: 'if', condition: 'wallAhead', then: [], id: nextId() };
+                break;
+            default:
+                return;
         }
 
         setProgram((prev) => [...prev, newCmd]);
@@ -101,9 +116,11 @@ export function Game() {
     // Запуск программы
     const handleRun = async () => {
         if (isRunning || program.length === 0) return;
+        setCurrentGrid(null);
         setIsRunning(true);
         setResult(null);
         setLog('');
+
 
         const steps = execute(program, level);
 
@@ -111,6 +128,7 @@ export function Game() {
         for (let i = 0; i < steps.length; i++) {
             const step = steps[i];
             setRobotState(step.state);
+            setCurrentGrid(step.grid);
             setActiveBlockId(step.activeBlockId);
             setLog(step.log);
 
@@ -142,6 +160,7 @@ export function Game() {
     // Сброс
     const handleReset = () => {
         setProgram([]);
+        setCurrentGrid(null);
         setRobotState(null);
         setActiveBlockId(null);
         setLog('');
@@ -163,7 +182,7 @@ export function Game() {
                 <div className="game__content">
                     <div className="game__left">
                         <Board
-                            grid={level.grid}
+                            grid={currentGrid ?? level.grid}
                             robot={initialRobot}
                             activeBlockId={activeBlockId}
                         />
@@ -182,7 +201,7 @@ export function Game() {
                             <button
                                 className="game__run"
                                 onClick={handleRun}
-                                disabled={isRunning || program.length === 0}
+                                disabled={isRunning || program.length === 0 || result !== null}
                             >
                                 ▶ Запустить
                             </button>
